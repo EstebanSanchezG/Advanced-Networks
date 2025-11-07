@@ -44,7 +44,7 @@
 Internet_IP="10.0.1.x"
 Internet_IP_RANGE="10.0.1.0/24"
 Internet_BCAST_ADRESS="10.0.1.255"
-Internet_IFACE="ens3" # USER CHANGE: INTERFACE FROM enp0s8 to ens3
+Internet_IFACE="ens3" # ESTEBAN SANCHEZ: INTERFACE FROM enp0s8 to ens3
 
 ####
 # 1.2 Client network configuration.
@@ -57,7 +57,7 @@ Internet_IFACE="ens3" # USER CHANGE: INTERFACE FROM enp0s8 to ens3
 Client_NET_IP="10.0.2.y"
 Client_NET_IP_RANGE="10.0.2.0/24"
 Client_NET_BCAST_ADRESS="10.0.2.255"
-Client_NET_IFACE="ens4" # USER CHANGE: INTERFACE FROM enp0s3 to ens4
+Client_NET_IFACE="ens4" # ESTEBAN SANCHEZ: INTERFACE FROM enp0s3 to ens4
 
 
 #
@@ -65,9 +65,9 @@ Client_NET_IFACE="ens4" # USER CHANGE: INTERFACE FROM enp0s3 to ens4
 #
 LO_IFACE="lo"
 LO_IP="127.0.0.1"
-WEB_IP_ADDRESS="10.0.2.1" # CHANGED TO GATEWAY
+WEB_IP_ADDRESS="10.0.2.1" # ESTEBAN SANCHEZ TO GATEWAY
 #IP aliases for NATed services (this is the GW's ip on client network)
-NAT_WEB_IP_ADDRESS="10.0.2.1" # CHANGED TO GATEWAY
+NAT_WEB_IP_ADDRESS="10.0.2.1" # ESTEBAN SANCHEZ TO GATEWAY
 
 ####
 # 1.4 IPTables Configuration.
@@ -198,7 +198,7 @@ $IPTABLES -P OUTPUT DROP
 $IPTABLES -P FORWARD DROP
 
 
-# CHANGED: ADDED RETURN TRAFFIC
+# ESTEBAN SANCHEZ: ADDED RETURN TRAFFIC
 $IPTABLES -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 $IPTABLES -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 $IPTABLES -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -269,7 +269,7 @@ $IPTABLES -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # example of using allowed
 #$IPTABLES -A FORWARD -p tcp -j allowed
-# CHANGED: ADDED FORWARD CHAIN FOR 8.8.8.8
+# ESTEBAN SANCHEZ: ADDED FORWARD CHAIN FOR 8.8.8.8
 $IPTABLES -A FORWARD -i $Client_NET_IFACE -o $Internet_IFACE -p icmp --icmp-type echo-request -s $Client_NET_IP_RANGE -d 8.8.8.8 -j ACCEPT
 
 
@@ -292,10 +292,10 @@ $IPTABLES -A INPUT -p TCP --dport 80 -i $Client_NET_IFACE -d $WEB_IP_ADDRESS -j 
 
 
 # Allowed ping from client and server
-# CHANGED: COMMENTED THE NEXT ACCEPT LINE
+# ESTEBAN SANCHEZ: COMMENTED THE NEXT ACCEPT LINE
 #$IPTABLES -A INPUT -p icmp -j ACCEPT
 
-# CHANGED: ADDED NEW RULE FOR CLIENT -> GATEWAY PING
+# ESTEBAN SANCHEZ: ADDED NEW RULE FOR CLIENT -> GATEWAY PING
 $IPTABLES -A INPUT -i $Client_NET_IFACE -p icmp --icmp-type echo-request -d $WEB_IP_ADDRESS -s $Client_NET_IP_RANGE -j DROP
 
 #####
@@ -342,6 +342,6 @@ $IPTABLES -A INPUT -i $Client_NET_IFACE -p icmp --icmp-type echo-request -d $WEB
 
 # Example: Allow client node to access to all Internet using masquerade
 
-# CHANGED: ADDED NAT MASQUERADE
+# ESTEBAN SANCHEZ: ADDED NAT MASQUERADE
 $IPTABLES -t nat -A POSTROUTING -o $Internet_IFACE -j MASQUERADE
 
