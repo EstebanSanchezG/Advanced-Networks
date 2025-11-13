@@ -16,7 +16,7 @@ from pox.lib.packet.ipv4 import ipv4
 from pox.lib.packet.icmp import icmp
 
 log = core.getLogger()
-priority = 60000 #Changed by Esteban Sanchez
+priority = 60000 # Changed by Esteban Sanchez: Raised Priority level
 
 l2config = "l2firewall.config"
 l3config = "l3firewall.config"
@@ -103,7 +103,7 @@ class Firewall (EventMixin):
 		match.dl_type = pkt.ethernet.IP_TYPE
 		msg.match = match
 		msg.hard_timeout = 0
-		msg.idle_timeout = 7200 #Changes by EstebanSanchez: Timeout change for testing
+		msg.idle_timeout = 7200 #Changes by EstebanSanchez: Timeout change from 200 to 7200 seconds
 		msg.priority = priority + offset		
 		event.connection.send(msg)
 
